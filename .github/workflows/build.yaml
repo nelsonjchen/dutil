@@ -1,0 +1,26 @@
+# Workflow that builds the docker image for ARM and x86_64 and pushes to GitHub packages
+
+name: build
+
+on:
+  push:
+
+jobs:
+  buildx:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ghcr.io/nelsonjchen/dutil:latest
