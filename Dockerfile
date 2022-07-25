@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM debian:testing
 
 ARG UTILS_USER_GID=1000
 ARG UTILS_USER_UID=1000
