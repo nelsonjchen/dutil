@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     jq \
     bind9-host \
+    mtr-tiny \
     openssh-client \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
