@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     snmp \
     dnsutils \
+    iputils-ping \
     net-tools \
     vim \
     jq \
