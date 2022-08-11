@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     bind9-host \
     mtr-tiny \
     openssh-client \
+    tmux \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
