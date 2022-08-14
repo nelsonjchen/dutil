@@ -2,7 +2,7 @@
 
 Just some utilities I could reference from anywhere.
 
-Built on GitHub Actions for ARM and x86_64.
+Built on GitHub Actions for linux/arm64 and linux/amd64.
 
 ## Usage Examples
 
