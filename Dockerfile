@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     bind9-host \
     mtr-tiny \
     openssh-client \
-    postgres-client \
+    postgresql-client \
     python3 \
     tmux \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
