@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     snmp \
+    snmp-mibs-downloader \
     dnsutils \
     iputils-ping \
     net-tools \
