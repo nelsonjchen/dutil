@@ -6,6 +6,7 @@ ARG UTILS_USER_UID=1000
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
+    git \
     snmp \
     snmp-mibs-downloader \
     dnsutils \
