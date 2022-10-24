@@ -15,5 +15,5 @@ kubectl run tmp-shell --restart=Never --rm -i --tty --image ghcr.io/nelsonjchen/
 ### `docker run`
 
 ```sh
-docker run --rm -i --tty --image ghcr.io/nelsonjchen/dutil
+docker run --rm -i --tty ghcr.io/nelsonjchen/dutil
 ```
