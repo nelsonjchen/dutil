@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     openssh-client \
     postgresql-client \
     python3 \
+    strace \
     tmux \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
