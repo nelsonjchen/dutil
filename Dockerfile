@@ -3,6 +3,8 @@ FROM ubuntu:22.04
 ARG UTILS_USER_GID=1000
 ARG UTILS_USER_UID=1000
 
+ENV NMAP_UNPRIVILEGED=true
+
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
