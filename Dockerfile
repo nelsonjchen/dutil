@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y \
     sqlcmd \
     tcpdump \
     sshpass \
+    telnet \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
