@@ -9,14 +9,29 @@ ENV NMAP_UNPRIVILEGED=true
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
+    gnupg \
+    ca-certificates \
     software-properties-common \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Copy and trust mkcert CA certificate for build environment
+COPY mkcert-rootCA.pem /usr/local/share/ca-certificates/mkcert-rootCA.crt
+
+# Update ca-certificates to fix SSL issues
+RUN update-ca-certificates
+
+# Create keyrings directory for package signing keys
+RUN install -m 0755 -d /etc/apt/keyrings
+
 # Microsoft Stuff
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc
-RUN add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/22.04/prod.list)"
+RUN wget -O- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /etc/apt/keyrings/microsoft.gpg
+RUN echo "deb [arch=amd64,arm64 signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | tee /etc/apt/sources.list.d/microsoft.list
 # For:
 # sqlcmd
+
+# Google Cloud SDK
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+RUN wget -O- https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -42,6 +57,7 @@ RUN apt-get update && apt-get install -y \
     tcpdump \
     sshpass \
     telnet \
+    google-cloud-cli \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
