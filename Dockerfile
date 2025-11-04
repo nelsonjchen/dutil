@@ -14,7 +14,9 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy and trust mkcert CA certificate for build environment
+# Copy and trust mkcert CA certificate for build environment (CI-specific)
+# Note: This file is required for builds in the CI environment where SSL is intercepted
+# For local builds, create an empty file: touch mkcert-rootCA.pem
 COPY mkcert-rootCA.pem /usr/local/share/ca-certificates/mkcert-rootCA.crt
 
 # Update ca-certificates to fix SSL issues
@@ -30,8 +32,10 @@ RUN echo "deb [arch=amd64,arm64 signed-by=/etc/apt/keyrings/microsoft.gpg] https
 # sqlcmd
 
 # Google Cloud SDK
-RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+# Download and install the Google Cloud SDK GPG key first
 RUN wget -O- https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+# Then add the repository that references the key
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 
 RUN apt-get update && apt-get install -y \
     git \
