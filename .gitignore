@@ -1,2 +1,0 @@
-# Build-time certificates (specific to CI environment)
-mkcert-rootCA.pem
