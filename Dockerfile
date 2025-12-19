@@ -5,7 +5,7 @@ ARG UTILS_USER_UID=1000
 
 ENV NMAP_UNPRIVILEGED=true
 
-# Install prerequsites for installing stuff
+# Install prerequisites for installing stuff
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
@@ -53,7 +53,6 @@ RUN apt-get update && apt-get install -y \
     strace \
     tmux \
     nmap \
-    openssh-client \
     htop \
     isc-dhcp-client \
     sqlcmd \
