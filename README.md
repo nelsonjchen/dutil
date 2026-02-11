@@ -17,3 +17,6 @@ kubectl run tmp-shell --restart=Never --rm -i --tty --image ghcr.io/nelsonjchen/
 ```sh
 docker run --rm -i --tty ghcr.io/nelsonjchen/dutil
 ```
+
+
+> Note: `sqlcmd` is only installed on `linux/amd64` builds because Microsoft does not publish that package for all architectures.

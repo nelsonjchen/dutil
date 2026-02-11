@@ -6,36 +6,7 @@ on:
   push:
 
 jobs:
-  # buildx-arm64:
-  #   runs-on: ubuntu-24.04-arm
-  #   permissions:
-  #     contents: read
-  #     packages: write
-  #   steps:
-  #     -
-  #       name: Checkout
-  #       uses: actions/checkout@v6      
-  #     -
-  #       name: Login to GHCR
-  #       uses: docker/login-action@v3
-  #       with:
-  #         registry: ghcr.io
-  #         username: ${{ github.repository_owner  }}
-  #         password: ${{ secrets.GITHUB_TOKEN }}
-  #     -
-  #       name: Set up Docker Buildx
-  #       id: buildx
-  #       uses: docker/setup-buildx-action@v3
-  #     -
-  #       name: Build and push
-  #       uses: docker/build-push-action@v6
-  #       with:
-  #         context: .
-  #         platforms: linux/arm64
-  #         push: true
-  #         tags: ghcr.io/${{ github.repository_owner }}/dutil:latest
-  
-  buildx-x64:
+  buildx:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -43,14 +14,17 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v6      
+        uses: actions/checkout@v6
       -
         name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner  }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
       -
         name: Set up Docker Buildx
         id: buildx
@@ -60,6 +34,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/dutil:latest
