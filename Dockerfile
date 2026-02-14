@@ -10,10 +10,14 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     software-properties-common \
+    gnupg \
+    ca-certificates \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install tooling and architecture-specific dependencies.
 RUN set -eux; \
+    echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list; \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg; \
     arch="$(dpkg --print-architecture)"; \
     if [ "$arch" = "amd64" ]; then \
       curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc >/dev/null; \
@@ -47,6 +51,7 @@ RUN set -eux; \
       tcpdump \
       sshpass \
       telnet \
+      google-cloud-cli \
       $sqlcmd_pkg \
     ; \
     apt-get clean; \
