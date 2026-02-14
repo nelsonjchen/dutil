@@ -12,37 +12,45 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Microsoft Stuff
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc
-RUN add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/22.04/prod.list)"
-# For:
-# sqlcmd
-
-RUN apt-get update && apt-get install -y \
-    git \
-    snmp \
-    snmp-mibs-downloader \
-    dnsutils \
-    iputils-ping \
-    net-tools \
-    vim \
-    jq \
-    bind9-host \
-    mtr-tiny \
-    openssh-client \
-    postgresql-client \
-    python3 \
-    strace \
-    tmux \
-    nmap \
-    openssh-client \
-    htop \
-    isc-dhcp-client \
-    sqlcmd \
-    tcpdump \
-    sshpass \
-    telnet \
-&& apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install tooling and architecture-specific dependencies.
+RUN set -eux; \
+    arch="$(dpkg --print-architecture)"; \
+    if [ "$arch" = "amd64" ]; then \
+      curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc >/dev/null; \
+      add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/22.04/prod.list)"; \
+      sqlcmd_pkg="sqlcmd"; \
+    else \
+      sqlcmd_pkg=""; \
+      echo "Skipping sqlcmd install on unsupported architecture: $arch"; \
+    fi; \
+    apt-get update; \
+    apt-get install -y \
+      git \
+      snmp \
+      snmp-mibs-downloader \
+      dnsutils \
+      iputils-ping \
+      net-tools \
+      vim \
+      jq \
+      bind9-host \
+      mtr-tiny \
+      openssh-client \
+      postgresql-client \
+      python3 \
+      strace \
+      tmux \
+      nmap \
+      openssh-client \
+      htop \
+      isc-dhcp-client \
+      tcpdump \
+      sshpass \
+      telnet \
+      $sqlcmd_pkg \
+    ; \
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/*
 
 
 # # Unprivileged user setup
